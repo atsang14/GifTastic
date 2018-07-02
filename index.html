@@ -43,19 +43,35 @@
 		var theAnimal 	= $(this).text();
 		theUrl 			= 'https://api.giphy.com/v1/gifs/search?q='+ theAnimal +'&api_key=ZMYnTWx0YMWCbDSnopxjDimPTtTEjpTK&limit=5';
 
-
 		$.ajax({url: theUrl}).then(function(res){
-			
-			for(var i = 0; i < res.data.length; i++){
-				var div		= $('<div>');
-				var p 		= $('<p>').text('Rated: ' + res.data[i].rating);
-				var image 	= $('<img>');
 
-				var gifUrl  = res.data[i].images.original_still.url;
-				image.attr('src',gifUrl).attr('width',300).attr('height',300);
+			for(var i = 0; i < res.data.length; i++){
+				var div					= $('<div>');
+				var p 					= $('<p>').text('Rated: ' + res.data[i].rating);
+				var image 				= $('<img>').attr('id', 'animalImage');
+				var gifUrlStill  		= res.data[i].images.original_still.url;
+				var gifUrlAnimation		= res.data[i].images.original.url;
+				image.attr('src',gifUrlStill).attr('width',300).attr('height',300).attr('gifCondition', 'still').attr('gifStill', gifUrlStill).attr('gifUrlAnimation',gifUrlAnimation);
 				$('.gifs').append(div.append(p,image));
 			}
 		})
+
+	})
+
+	$(document).on('click', '#animalImage',function() {
+		var condition = $(this).attr('gifCondition');
+		var still 	  = $(this).attr('gifStill');
+		var animation = $(this).attr('gifUrlAnimation');
+
+		if(condition == 'still') {
+			$(this).attr('src', animation);
+			$(this).attr('gifCondition', 'animation');
+		} 
+		else if(condition == 'animation') {
+			$(this).attr('src', still);
+			$(this).attr('gifCondition', 'still');
+		}
+
 	})
 
 </script>
