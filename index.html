@@ -6,14 +6,12 @@
 <body>
 <div class="container">
 	<div class="buttonSection"></div>
-	
-	
-
 	<form id="animal">
 		<h2>Add an animal</h2>
 		<input id="userInput">
 		<button id="submit">Submit</button>
 	</form>
+	<div class="gifs"></div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">												
@@ -40,18 +38,52 @@
 		$('.buttonSection').append(button);
 	})	
 
-		// $.ajax({url: theUrl}).then(function(res){
-		// event.preventDefault();	
-		// })
-
 	$(document).on('click', '#animalButton',function() {
-		debugger;
-		theUrl 		= 'https://api.giphy.com/v1/gifs/search?q='+ inputAnimal +'&api_key=ZMYnTWx0YMWCbDSnopxjDimPTtTEjpTK=5';
+		var theAnimal 	= $(this).text();
+		theUrl 			= 'https://api.giphy.com/v1/gifs/search?q='+ theAnimal +'&api_key=ZMYnTWx0YMWCbDSnopxjDimPTtTEjpTK&limit=5';
+
+
+		$.ajax({url: theUrl}).then(function(res){
+			for(var i = 0; i < res.data.length; i++){
+				var image 	= $('<img>');
+				var gifUrl  = res.data[i].images.downsized_large.url;
+				image.attr('src',gifUrl);
+				$('.gifs').append(image);
+			}
+		})
 	})
 
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
