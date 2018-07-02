@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div class="container">
+	<div class="buttonSection"></div>
+	
+	
+
+	<form id="animal">
+		<h2>Add an animal</h2>
+		<input id="userInput">
+		<button id="submit">Submit</button>
+	</form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">												
+	var topics 		= ['dog', 'cat', 'mouse', 'aligator'];
+	var inputAnimal = '';
+	var theUrl		= '';
+
+	for(var i = 0; i < topics.length;i++) {
+		var button = $('<button>').attr('id', 'animalButton');
+		button.text(topics[i]);
+		$('.buttonSection').append(button);
+	}	
+
+	// when clicking the submit button, 
+	// create a button with the input as the innerText of the button
+	$('#submit').on('click',function() {
+		event.preventDefault();	
+		var button = $('<button>').attr('id', 'animalButton');
+		inputAnimal = $('#userInput').val();
+
+		
+		topics.push(inputAnimal);
+		button.text(inputAnimal);
+		$('.buttonSection').append(button);
+	})	
+
+		// $.ajax({url: theUrl}).then(function(res){
+		// event.preventDefault();	
+		// })
+
+	$(document).on('click', '#animalButton',function() {
+		debugger;
+		theUrl 		= 'https://api.giphy.com/v1/gifs/search?q='+ inputAnimal +'&api_key=ZMYnTWx0YMWCbDSnopxjDimPTtTEjpTK=5';
+	})
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
