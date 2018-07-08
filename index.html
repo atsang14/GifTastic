@@ -19,6 +19,7 @@
 	var inputAnimal = '';
 	var theUrl		= '';
 
+	// this loop creates buttons for some given animals in the topics array.
 	for(var i = 0; i < topics.length;i++) {
 		var button = $('<button>').attr('id', 'animalButton');
 		button.text(topics[i]);
@@ -32,16 +33,21 @@
 		var button = $('<button>').attr('id', 'animalButton');
 		inputAnimal = $('#userInput').val();
 
-		
-		topics.push(inputAnimal);
-		button.text(inputAnimal);
-		$('.buttonSection').append(button);
+		if(inputAnimal != ''){
+			topics.push(inputAnimal);
+			button.text(inputAnimal);
+			$('.buttonSection').append(button);
+			$('#userInput').val('');
+		}
 	})	
 
+	// when clicking the any of the animal buttons
+	// display the gifs in their still condition
+	// and then assign them attributes
 	$(document).on('click', '#animalButton',function() {
 		$('.gifs').text('');
 		var theAnimal 	= $(this).text();
-		theUrl 			= 'https://api.giphy.com/v1/gifs/search?q='+ theAnimal +'&api_key=ZMYnTWx0YMWCbDSnopxjDimPTtTEjpTK&limit=5';
+		theUrl 			= 'https://api.giphy.com/v1/gifs/search?q=' + theAnimal + '&api_key=ZMYnTWx0YMWCbDSnopxjDimPTtTEjpTK&limit=10';
 
 		$.ajax({url: theUrl}).then(function(res){
 
@@ -51,13 +57,17 @@
 				var image 				= $('<img>').attr('id', 'animalImage');
 				var gifUrlStill  		= res.data[i].images.original_still.url;
 				var gifUrlAnimation		= res.data[i].images.original.url;
+				
 				image.attr('src',gifUrlStill).attr('width',300).attr('height',300).attr('gifCondition', 'still').attr('gifStill', gifUrlStill).attr('gifUrlAnimation',gifUrlAnimation);
 				$('.gifs').append(div.append(p,image));
 			}
 		})
-
 	})
 
+	// checks the condition of the image.
+	// if the condition is still, it will make the image animate.
+	// if the condition is animation, it will make the image still.
+	// it will then update the condition.
 	$(document).on('click', '#animalImage',function() {
 		var condition = $(this).attr('gifCondition');
 		var still 	  = $(this).attr('gifStill');
